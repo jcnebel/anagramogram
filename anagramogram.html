@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>ANAGRAM-O-GRAM</title>
+	<link rel="stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href = "./anagramogram.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+<br />
+
+<div id="anagramoDiv">
+
+	<h1 class="ag">ANAGRAM-O-GRAM</h1>
+
+	<form ng-app="anagramApp" ng-controller="anagramCtrl" name="anagramForm" novalidate>
+
+		<p class="instructions">
+			Given two words, I'll determine if they're anagrams of each other!
+		</p>
+	
+		<input type="text" name="word1" ng-model="word1" required> 
+		<span style="color:red;" ng-show="anagramForm.word1.$dirty && anagramForm.word1.$invalid">
+			<span ng-show="anagramForm.word1.$error.required">*</span>
+		</span>			
+		
+		<span class='ag'>VS</span>
+		
+		<input type="text" name="word2" ng-model="word2" required>
+		<span style="color:red;" ng-show="anagramForm.word2.$dirty && anagramForm.word2.$invalid">
+			<span ng-show="anagramForm.word2.$error.required">*</span>
+		</span>
+
+		<button ng-click="anagramogram()" class="btn">GO</button>
+			
+		<hr />
+
+		<p class="message ag">
+			{{ message | uppercase }}
+			<span ng-show="show_help"><button ng-click='examples()' class='btn'>help!</button></span>
+		</p>
+		
+	</form>
+
+	<div style="clear:both;"></div>
+</div>
+
+<script>
+	var app = angular.module( 'anagramApp', [] );
+	app.controller( 'anagramCtrl', function( $scope ) {
+	
+		$scope.word1 = "dad";
+		$scope.word2 = "add";
+		$scope.show_help = false;
+		
+		$scope.examples = function() {
+			var examples = [ 
+				{ w1: 'dad', w2: 'add' },
+				{ w1: 'fiber', w2: 'brief' },
+				{ w1: 'stealing', w2: 'genitals' },
+				{ w1: 'refill', w2: 'filler' },
+				{ w1: 'lasting', w2: 'salting' },
+				{ w1: 'present', w2: 'serpent' },
+				{ w1: 'chin', w2: 'inch' },
+				{ w1: 'deaf', w2: 'fade' }
+			];
+			
+			var example = examples[Math.floor(Math.random()*examples.length)];
+			
+			$scope.word1 = example.w1;
+			$scope.word2 = example.w2;
+			return;
+		};
+		
+		$scope.anagramogram = function() {
+			$scope.show_help = false;
+			$scope.message = "";
+			
+			if( !$scope.word1  || !$scope.word2 )
+			{
+				console.log('empty string passed.  aborting.');
+				$scope.message += "We more need words, see?";
+				$scope.show_help = true;
+				return false;
+			}
+			
+			var arr1 = $scope.word1.toUpperCase().split("");
+			var arr2 = $scope.word2.toUpperCase().split("");
+			
+			console.log("comparing " + $scope.word1 + " and " + $scope.word2 );
+			
+			console.log("checking array sizes.");
+			if( arr1.length != arr2.length )
+			{
+				console.log("array lengths do not match.");
+ 				$scope.message += $scope.word1 + " and " + $scope.word2 + " are not even the same length!  Try again.";
+ 				$scope.show_help = true;
+				return false;
+			}
+			
+			console.log("sorting arrays.");
+			arr1.sort();
+			arr2.sort();
+				
+			console.log("comparing arrays by index");
+			for( var i = 0; i < arr1.length; i++ )
+			{
+				console.log("comparing " + arr1[i] + " and " + arr2[i] + "..." );
+				if( arr1[i] != arr2[i] )
+				{
+					console.log("...not a match.  exiting.");
+					$scope.message += "Nope, try again.";
+					$scope.show_help = true;
+					return false;
+				}
+			}
+			console.log("no errors found, must be an anagram");
+			$scope.message += "WE DID IT!  Hooray anagrams!";
+			return true;
+		};
+	});
+</script>
+
+</body>
+</html>

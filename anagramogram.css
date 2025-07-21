@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'Bangers';
+  src: url('./Bangers/Bangers-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.ag {
+	font-family: 'Bangers';
+}
+
+div#anagramoDiv {
+	text-align: center; 
+	padding: 10px; 
+	max-width: 500px; 
+	width: 100%; 
+	background-color: #f9f9f9; 
+	margin: 0px auto;
+	border-radius: 15px 50px;
+	border: 1px solid #dddddd;
+}
+
+p.message {
+	display: block;
+	margin: 0px auto 10px auto;
+	text-align: center;
+	max-width: 400px;
+	width: 100%;
+}
+
+p.instructions {
+	display: block;
+	margin: 20px;
+	font-size: 13px;
+	color: #aaaaaa;
+	font-family: "Trebuchet MS";
+}
+
+input[type=text] {
+	padding: 4px 2px;
+	margin: 0px 5px;
+	font-family: monospace;
+	color: #aaaaaa;
+}
